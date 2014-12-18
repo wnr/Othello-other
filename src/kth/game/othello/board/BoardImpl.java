@@ -102,6 +102,12 @@ public class BoardImpl implements Board {
 		return builder.toString();
 	}
 
+	public boolean isBoundaryNode(Node node) {
+		final int x = node.getXCoordinate();
+		final int y = node.getYCoordinate();
+		return hasNode(x - 1, y) || hasNode(x + 1, y) || hasNode(x, y - 1) || hasNode(x, y + 1);
+	}
+
 	private void computeMaxCoordinates() {
 		maxX = 0;
 		maxY = 0;
