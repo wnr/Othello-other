@@ -2,6 +2,7 @@ package kth.game.othello;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 import java.util.Random;
 
 import kth.game.othello.player.Player;
@@ -9,10 +10,11 @@ import kth.game.othello.rules.Rules;
 
 /**
  * This class is responsible for tracking the player in turn for a turn-based game.
+ * Is observable for player skipping events, which happens when some players cannot make a move and therefore are skipped.
  * 
  * @author Henrik Hygerth
  */
-public class PlayerSwitcher {
+public class PlayerSwitcher extends Observable {
 
 	private static final int NO_PLAYER_IN_TURN = -1;
 
@@ -58,9 +60,12 @@ public class PlayerSwitcher {
 
 	/**
 	 * Proceeds to the next player that can make a valid move.
+	 * Can notify observers if players has been skipped, with the list of player id's skipped.
+	 *
+	 * @param notify True means that the method should notify player skips.
 	 * @return All skipped players that cannot make a move.
 	 */
-	public List<String> switchToNextPlayer() {
+	public List<String> switchToNextPlayer(boolean notify) {
 		List<String> skipped = new ArrayList<String>();
 
 		for (int i = 1; i <= players.size(); i++) {
@@ -68,6 +73,12 @@ public class PlayerSwitcher {
 			String playerId = players.get(index).getId();
 			if (rules.hasValidMove(playerId)) {
 				playerInTurn = index;
+
+				if(notify && !skipped.isEmpty()) {
+					setChanged();
+					notifyObservers(skipped);
+				}
+
 				return skipped;
 			}
 			skipped.add(playerId);
@@ -75,6 +86,11 @@ public class PlayerSwitcher {
 		playerInTurn = NO_PLAYER_IN_TURN;
 		return new ArrayList<String>();
 	}
+
+	public List<String> switchToNextPlayer() {
+		return switchToNextPlayer(false);
+	}
+
 
 	/**
 	 * Randomly selects a player in turn.

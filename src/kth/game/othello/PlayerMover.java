@@ -101,7 +101,7 @@ public class PlayerMover extends Observable {
 			nodeSwapper.copy(moveHistory.popLastMoves());
 			// loop until we hit the player before this move
 			for (int i = 0; i < players.size() - 1; i++) {
-				playerSwitcher.switchToNextPlayer();
+				playerSwitcher.switchToNextPlayer(false);
 			}
 		}
 	}
@@ -124,7 +124,7 @@ public class PlayerMover extends Observable {
 	private void registerMove(PlayerSwitcher playerSwitcher, List<Node> nodesToSwap, String playerId, String nodeId) {
 		moveHistory.pushNewMoves(nodesToSwap);
 		nodeSwapper.swap(nodesToSwap, playerId, nodeId);
-		playerSwitcher.switchToNextPlayer();
+		playerSwitcher.switchToNextPlayer(true);
 
 		setChanged();
 		notifyObservers(nodesToSwap);
