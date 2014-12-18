@@ -16,6 +16,7 @@ import kth.game.othello.player.Player;
 import kth.game.othello.score.Score;
 import kth.game.othello.score.ScoreImpl;
 import kth.game.othello.score.ScoreItem;
+import kth.game.othello.score.ScoreStrategy;
 import kth.tournament.match.Match;
 import kth.tournament.match.OthelloMatch;
 import kth.tournament.presenter.AsciiResultPresenter;
@@ -101,7 +102,8 @@ public class OthelloTournamentFactory implements TournamentFactory {
 	 * @return new score instance
 	 */
 	private Score createScore(List<Match> matches, List<Player> players) {
-		ScoreImpl score = new ScoreImpl(createScoreItems(players));
+		ScoreStrategy scoreStrategy = new TournamentScoreStrategy();
+		ScoreImpl score = new ScoreImpl(createScoreItems(players), scoreStrategy);
 		for (Match match : matches) {
 			match.addObserver(score);
 		}

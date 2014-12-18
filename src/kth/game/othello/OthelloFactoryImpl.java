@@ -16,9 +16,7 @@ import kth.game.othello.player.movestrategy.NaiveMoveStrategy;
 import kth.game.othello.player.movestrategy.RandomMoveStrategy;
 import kth.game.othello.rules.Rules;
 import kth.game.othello.rules.RulesImpl;
-import kth.game.othello.score.ScoreImpl;
-import kth.game.othello.score.Score;
-import kth.game.othello.score.ScoreItem;
+import kth.game.othello.score.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -208,7 +206,8 @@ public class OthelloFactoryImpl implements OthelloFactory {
 	 * @return new score instance
 	 */
 	private Score createScore(List<NodeImpl> nodes, List<Player> players) {
-		ScoreImpl score = new ScoreImpl(createScoreItems(players));
+		ScoreStrategy scoreStrategy = new OthelloScoreStrategy();
+		ScoreImpl score = new ScoreImpl(createScoreItems(players), scoreStrategy);
 		for (NodeImpl node : nodes) {
 			node.addObserver(score);
 		}

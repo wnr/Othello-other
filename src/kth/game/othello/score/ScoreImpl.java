@@ -15,13 +15,19 @@ import java.util.Collections;
 public class ScoreImpl extends Observable implements Score, Observer {
 
 	private List<ScoreItem> scores;
+	private ScoreStrategy scoreStrategy;
 
 	/**
 	 * @param scores the list of score items to track
 	 */
-	public ScoreImpl(List<ScoreItem> scores) {
+	public ScoreImpl(List<ScoreItem> scores, ScoreStrategy scoreStrategy) {
 		this.scores = scores;
+		this.scoreStrategy = scoreStrategy;
 		updateOrder();
+	}
+
+	public void setScoreStrategy(ScoreStrategy scoreStrategy) {
+		this.scoreStrategy = scoreStrategy;
 	}
 
 	@Override
@@ -41,41 +47,12 @@ public class ScoreImpl extends Observable implements Score, Observer {
 
 	@Override
 	public void update(Observable observable, Object object) {
-		if (object == null) {
-			return;
+		List<String> changedScores = scoreStrategy.updateScores(scores, object);
+		if (!changedScores.isEmpty()) {
+			setChanged();
 		}
-
-		List<String> changes = (List<String>) object;
-		String prevPlayerId = changes.get(0);
-		String nextPlayerId = changes.get(1);
-		updateScore(prevPlayerId, nextPlayerId);
-
-		if (prevPlayerId == null) {
-			notifyObservers(Arrays.asList(nextPlayerId));
-		} else {
-			notifyObservers(Arrays.asList(prevPlayerId, nextPlayerId));
-		}
-
+		notifyObservers(changedScores);
 		updateOrder();
-	}
-
-	/**
-	 * Updates the score for a node.
-	 *
-	 * @param prevPlayerId previous player id occupying the node
-	 * @param nextPlayerId next player id to occupy the node
-	 */
-	private void updateScore(String prevPlayerId, String nextPlayerId) {
-		for (int i = 0; i <  scores.size(); i++) {
-			ScoreItem item = scores.get(i);
-			if (item.getPlayerId().equals(prevPlayerId) && item.getScore() > 0) {
-				scores.set(i, new ScoreItem(item.getPlayerId(), item.getScore() - 1));
-				setChanged();
-			} else if (item.getPlayerId().equals(nextPlayerId)) {
-				scores.set(i, new ScoreItem(item.getPlayerId(), item.getScore() + 1));
-				setChanged();
-			}
-		}
 	}
 
 	/**

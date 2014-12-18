@@ -37,7 +37,7 @@ public class OthelloMatch extends Observable implements Match, Observer {
 		Score score = (Score) object;
 		String winningPlayerId = score.getPlayersScore().get(0).getPlayerId();
 		setChanged();
-		notifyObservers(Arrays.asList(null, winningPlayerId));
+		notifyObservers(winningPlayerId);
 	}
 
 }

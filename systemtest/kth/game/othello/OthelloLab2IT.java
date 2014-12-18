@@ -105,7 +105,8 @@ public class OthelloLab2IT {
 		scores.add(new ScoreItem("p2", 5));
 		scores.add(new ScoreItem("p3", 2));
 
-		ScoreImpl score = new ScoreImpl(scores);
+		ScoreStrategy scoreStrategy = new OthelloScoreStrategy();
+		ScoreImpl score = new ScoreImpl(scores, scoreStrategy);
 
 		score.update(null, Arrays.asList(null, "p2"));
 		score.update(null, Arrays.asList("p1", "p3"));
