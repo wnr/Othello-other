@@ -49,6 +49,9 @@ public class NodeCapturer {
 		}
 
 		for (Node node : nodeFinder.getAdjacentOpponentNodes(board.getNodes(), playerId, startNode)) {
+			if(isDiagonallyAdjacent(node, startNode)) {
+				continue; //Never swap diagonally.
+			}
 			captures.addAll(getNodesToCaptureInDirection(board, playerId, startNode, node));
 		}
 
@@ -112,6 +115,10 @@ public class NodeCapturer {
 			captures.clear();
 			return captures;
 		}
+	}
+
+	private boolean isDiagonallyAdjacent(Node n1, Node n2) {
+		return n1.getXCoordinate() != n2.getXCoordinate() && n1.getYCoordinate() != n2.getYCoordinate();
 	}
 
 }
