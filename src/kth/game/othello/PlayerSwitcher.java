@@ -1,5 +1,6 @@
 package kth.game.othello;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -57,17 +58,22 @@ public class PlayerSwitcher {
 
 	/**
 	 * Proceeds to the next player that can make a valid move.
+	 * @return All skipped players that cannot make a move.
 	 */
-	public void switchToNextPlayer() {
+	public List<String> switchToNextPlayer() {
+		List<String> skipped = new ArrayList<String>();
+
 		for (int i = 1; i <= players.size(); i++) {
 			int index = (playerInTurn + i) % numPlayers;
 			String playerId = players.get(index).getId();
 			if (rules.hasValidMove(playerId)) {
 				playerInTurn = index;
-				return;
+				return skipped;
 			}
+			skipped.add(playerId);
 		}
 		playerInTurn = NO_PLAYER_IN_TURN;
+		return new ArrayList<String>();
 	}
 
 	/**

@@ -54,25 +54,35 @@ public class PlayerSwitcherTest {
 		Mockito.when(rules.hasValidMove(p2.getId())).thenReturn(true);
 		Mockito.when(rules.hasValidMove(p3.getId())).thenReturn(true);
 
+		List<String> skipped;
 		PlayerSwitcher ps = new PlayerSwitcher(players, rules, p1.getId());
 		Assert.assertEquals(p1, ps.getPlayerInTurn());
-		ps.switchToNextPlayer();
+		skipped = ps.switchToNextPlayer();
 		Assert.assertEquals(p2, ps.getPlayerInTurn());
-		ps.switchToNextPlayer();
+		Assert.assertEquals(0, skipped.size());
+		skipped = ps.switchToNextPlayer();
 		Assert.assertEquals(p3, ps.getPlayerInTurn());
-		ps.switchToNextPlayer();
+		Assert.assertEquals(0, skipped.size());
+		skipped = ps.switchToNextPlayer();
 		Assert.assertEquals(p1, ps.getPlayerInTurn());
+		Assert.assertEquals(0, skipped.size());
 		Mockito.when(rules.hasValidMove(p2.getId())).thenReturn(false);
 		Mockito.when(rules.hasValidMove(p3.getId())).thenReturn(false);
-		ps.switchToNextPlayer();
+		skipped = ps.switchToNextPlayer();
 		Assert.assertEquals(p1, ps.getPlayerInTurn());
+		Assert.assertEquals(2, skipped.size());
+		Assert.assertTrue(skipped.contains(p2.getId()));
+		Assert.assertTrue(skipped.contains(p3.getId()));
 		Mockito.when(rules.hasValidMove(p1.getId())).thenReturn(false);
 		Mockito.when(rules.hasValidMove(p3.getId())).thenReturn(true);
-		ps.switchToNextPlayer();
+		skipped = ps.switchToNextPlayer();
 		Assert.assertEquals(p3, ps.getPlayerInTurn());
+		Assert.assertEquals(1, skipped.size());
+		Assert.assertTrue(skipped.contains(p2.getId()));
 		Mockito.when(rules.hasValidMove(p3.getId())).thenReturn(false);
-		ps.switchToNextPlayer();
+		skipped = ps.switchToNextPlayer();
 		Assert.assertEquals(null, ps.getPlayerInTurn());
+		Assert.assertEquals(0, skipped.size());
 	}
 
 	@Test
