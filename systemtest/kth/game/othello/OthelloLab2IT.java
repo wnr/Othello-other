@@ -6,6 +6,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
+import kth.game.othello.board.BoardImpl;
+import kth.game.othello.board.Node;
+import kth.game.othello.board.NodeImpl;
 import kth.game.othello.player.*;
 import kth.game.othello.player.movestrategy.*;
 import kth.game.othello.score.*;
@@ -105,11 +108,12 @@ public class OthelloLab2IT {
 		scores.add(new ScoreItem("p2", 5));
 		scores.add(new ScoreItem("p3", 2));
 
-		ScoreStrategy scoreStrategy = new OthelloScoreStrategy();
+		BoardImpl board = new BoardImpl(new ArrayList<Node>(), null);
+		ScoreStrategy scoreStrategy = new OthelloScoreStrategy(board);
 		ScoreImpl score = new ScoreImpl(scores, scoreStrategy);
 
-		score.update(null, Arrays.asList(null, "p2"));
-		score.update(null, Arrays.asList("p1", "p3"));
+		score.update(new NodeImpl(1, 1), Arrays.asList(null, "p2"));
+		score.update(new NodeImpl(1, 1), Arrays.asList("p1", "p3"));
 
 		List<ScoreItem> currentScores = score.getPlayersScore();
 
@@ -117,9 +121,9 @@ public class OthelloLab2IT {
 		Assert.assertEquals("p3", currentScores.get(1).getPlayerId());
 		Assert.assertEquals("p1", currentScores.get(2).getPlayerId());
 
-		Assert.assertEquals(6, currentScores.get(0).getScore());
-		Assert.assertEquals(3, currentScores.get(1).getScore());
-		Assert.assertEquals(2, currentScores.get(2).getScore());
+		Assert.assertEquals(7, currentScores.get(0).getScore());
+		Assert.assertEquals(4, currentScores.get(1).getScore());
+		Assert.assertEquals(1, currentScores.get(2).getScore());
 	}
 
 }

@@ -105,7 +105,7 @@ public class BoardImpl implements Board {
 	public boolean isBoundaryNode(Node node) {
 		final int x = node.getXCoordinate();
 		final int y = node.getYCoordinate();
-		return hasNode(x - 1, y) || hasNode(x + 1, y) || hasNode(x, y - 1) || hasNode(x, y + 1);
+		return !(hasNode(x - 1, y) && hasNode(x + 1, y) && hasNode(x, y - 1) && hasNode(x, y + 1));
 	}
 
 	private void computeMaxCoordinates() {

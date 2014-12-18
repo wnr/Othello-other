@@ -5,10 +5,11 @@ import kth.game.othello.score.ScoreStrategy;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
 public class TournamentScoreStrategy implements ScoreStrategy {
 
-    public List<String> updateScores(List<ScoreItem> scores, Object args) {
+    public List<String> updateScores(List<ScoreItem> scores, Observable observable, Object args) {
         String winner = (String) args;
 
         List<String> updatedScores = new ArrayList<String>();

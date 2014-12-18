@@ -47,7 +47,7 @@ public class ScoreImpl extends Observable implements Score, Observer {
 
 	@Override
 	public void update(Observable observable, Object object) {
-		List<String> changedScores = scoreStrategy.updateScores(scores, object);
+		List<String> changedScores = scoreStrategy.updateScores(scores, observable, object);
 		if (!changedScores.isEmpty()) {
 			setChanged();
 		}

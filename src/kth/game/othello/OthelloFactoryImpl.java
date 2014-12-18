@@ -82,13 +82,13 @@ public class OthelloFactoryImpl implements OthelloFactory {
 	 */
 	private Othello createGame(List<NodeImpl> nodes, List<Player> players) {
 		String id = generateId();
-		Board board = createBoard(nodes, players);
+		BoardImpl board = createBoard(nodes, players);
 		NodeFinder nodeFinder = new NodeFinder();
 		NodeCapturer nodeCapturer = new NodeCapturer(nodeFinder);
 		Rules rules = new RulesImpl(board, nodeCapturer);
 		NodeSwapper nodeSwapper = new NodeSwapperImpl(nodes);
 		PlayerMover playerMover = new PlayerMover(new MoveHistory(), nodeSwapper, board, rules);
-		Score score = createScore(nodes, players);
+		Score score = createScore(board, nodes, players);
 		return new OthelloImpl(id, board, rules, playerMover, score, players);
 	}
 
@@ -173,7 +173,7 @@ public class OthelloFactoryImpl implements OthelloFactory {
 	 * @param players the players
 	 * @return the board
 	 */
-	private Board createBoard(List<NodeImpl> nodes, List<Player> players) {
+	private BoardImpl createBoard(List<NodeImpl> nodes, List<Player> players) {
 		HashMap<String, Character> colors = new HashMap<String, Character>();
 		// assign a ASCII char for each player to use in the board string representation
 		for (int i = 0; i < players.size(); i++) {
@@ -205,8 +205,8 @@ public class OthelloFactoryImpl implements OthelloFactory {
 	 * @param players the players to track
 	 * @return new score instance
 	 */
-	private Score createScore(List<NodeImpl> nodes, List<Player> players) {
-		ScoreStrategy scoreStrategy = new OthelloScoreStrategy();
+	private Score createScore(BoardImpl board, List<NodeImpl> nodes, List<Player> players) {
+		ScoreStrategy scoreStrategy = new OthelloScoreStrategy(board);
 		ScoreImpl score = new ScoreImpl(createScoreItems(players), scoreStrategy);
 		for (NodeImpl node : nodes) {
 			node.addObserver(score);
