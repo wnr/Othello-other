@@ -22,7 +22,7 @@ public class NodeCapturer {
 	}
 
 	/**
-	 * Returns the captured nodes surrounding the specified empty node in all directions which is occupied by the
+	 * Returns the captured nodes surrounding the specified empty node in all directions except for diagonal which is occupied by the
 	 * opponent player.
 	 *
 	 * @param board the board with nodes
@@ -49,6 +49,9 @@ public class NodeCapturer {
 		}
 
 		for (Node node : nodeFinder.getAdjacentOpponentNodes(board.getNodes(), playerId, startNode)) {
+			if(isDiagonallyAdjacent(node, startNode)) {
+				continue; //Never swap diagonally.
+			}
 			captures.addAll(getNodesToCaptureInDirection(board, playerId, startNode, node));
 		}
 
@@ -112,6 +115,14 @@ public class NodeCapturer {
 			captures.clear();
 			return captures;
 		}
+	}
+
+	private boolean isDiagonallyAdjacent(Node n1, Node n2) {
+		if(Math.abs(n1.getXCoordinate() - n2.getXCoordinate()) != 1 && Math.abs(n1.getYCoordinate() - n2.getYCoordinate()) != 1) {
+			return false; //Not adjacent node.
+		}
+
+		return n1.getXCoordinate() != n2.getXCoordinate() && n1.getYCoordinate() != n2.getYCoordinate();
 	}
 
 }
