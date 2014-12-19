@@ -106,7 +106,13 @@ public class NodeCapturerTest {
 		Mockito.when(place.getYCoordinate()).thenReturn(4);
 		Mockito.when(place.getId()).thenReturn("5-4");
 
-		Assert.assertEquals(0, nc.getNodesToCapture(board, "p1", "5-4", false).size());
+		Assert.assertEquals(1, nc.getNodesToCapture(board, p2Id, "5-4", false).size());
+
+		Mockito.when(place.getXCoordinate()).thenReturn(5);
+		Mockito.when(place.getYCoordinate()).thenReturn(4);
+		Mockito.when(place.getId()).thenReturn("4-4");
+
+		Assert.assertEquals(0, nc.getNodesToCapture(board, p2Id, "4-4", false).size());
 	}
 
 }

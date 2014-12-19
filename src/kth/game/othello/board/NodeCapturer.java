@@ -22,7 +22,7 @@ public class NodeCapturer {
 	}
 
 	/**
-	 * Returns the captured nodes surrounding the specified empty node in all directions which is occupied by the
+	 * Returns the captured nodes surrounding the specified empty node in all directions except for diagonal which is occupied by the
 	 * opponent player.
 	 *
 	 * @param board the board with nodes
