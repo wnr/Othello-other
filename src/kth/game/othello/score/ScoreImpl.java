@@ -19,6 +19,7 @@ public class ScoreImpl extends Observable implements Score, Observer {
 
 	/**
 	 * @param scores the list of score items to track
+	 * @param scoreStrategy The score strategy to be used.
 	 */
 	public ScoreImpl(List<ScoreItem> scores, ScoreStrategy scoreStrategy) {
 		this.scores = scores;
@@ -26,6 +27,10 @@ public class ScoreImpl extends Observable implements Score, Observer {
 		updateOrder();
 	}
 
+	/**
+	 * Sets the current score strategy.
+	 * @param scoreStrategy The score strategy to be active.
+	 */
 	public void setScoreStrategy(ScoreStrategy scoreStrategy) {
 		this.scoreStrategy = scoreStrategy;
 	}

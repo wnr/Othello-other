@@ -102,6 +102,11 @@ public class BoardImpl implements Board {
 		return builder.toString();
 	}
 
+	/**
+	 * Tells if the node is a boundary node. A boundary node is a node that is missing an at least one adjacent node horizontally or vertically.
+	 * @param node The node to be checked if it is a boundary node.
+	 * @return True if the given node is a boundary node.
+	 */
 	public boolean isBoundaryNode(Node node) {
 		final int x = node.getXCoordinate();
 		final int y = node.getYCoordinate();

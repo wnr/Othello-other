@@ -7,8 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
+/**
+ * Responsible for updates the scores of a othello tournament game.
+ */
 public class TournamentScoreStrategy implements ScoreStrategy {
 
+    @Override
     public List<String> updateScores(List<ScoreItem> scores, Observable observable, Object args) {
         String winner = (String) args;
 
