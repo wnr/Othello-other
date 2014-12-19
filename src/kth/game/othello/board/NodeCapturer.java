@@ -118,6 +118,10 @@ public class NodeCapturer {
 	}
 
 	private boolean isDiagonallyAdjacent(Node n1, Node n2) {
+		if(Math.abs(n1.getXCoordinate() - n2.getXCoordinate()) != 1 && Math.abs(n1.getYCoordinate() - n2.getYCoordinate()) != 1) {
+			return false; //Not adjacent node.
+		}
+
 		return n1.getXCoordinate() != n2.getXCoordinate() && n1.getYCoordinate() != n2.getYCoordinate();
 	}
 
